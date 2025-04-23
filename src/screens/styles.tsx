@@ -76,7 +76,6 @@ export const marketsStyles = StyleSheet.create({
     backgroundColor: Colors.codGray,
   },
   container: {
-    // flex: 1,
     justifyContent: "space-between",
     backgroundColor: Colors.codGray,
     paddingBottom: 10,
@@ -156,5 +155,85 @@ export const marketsStyles = StyleSheet.create({
     fontSize: 20,
     lineHeight: 30,
     fontFamily: "Lufga-Regular",
+  },
+});
+
+export const coinDetailsStyles = StyleSheet.create({
+  safeview: {
+    flex: 1,
+    backgroundColor: Colors.codGray,
+  },
+  container: {
+    flex: 1,
+    justifyContent: "space-between",
+    backgroundColor: Colors.codGray,
+    paddingBottom: 10,
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginLeft: 20,
+    marginBottom: 40,
+  },
+  backButton: {
+    backgroundColor: "rgba(255, 255, 255, 0.05)",
+    width: 48,
+    height: 48,
+    borderRadius: 100,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 50,
+  },
+  headerContent: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  headerTitle: {
+    fontSize: 16,
+    lineHeight: 24,
+    fontFamily: "Lufga-Medium",
+    color: Colors.white,
+  },
+  scroll: {
+    flex: 1,
+  },
+  priceContainer: {
+    paddingLeft: 20,
+    marginBottom: 50,
+  },
+  price: {
+    fontSize: 32,
+    lineHeight: 42,
+    fontFamily: "Lufga-Regular",
+    color: Colors.white,
+  },
+  candlestick: {
+    width: "100%",
+    // backgroundColor: "red",
+  },
+  //   time selector
+  timeRangeContainer: {
+    paddingHorizontal: 16,
+    flexDirection: "row",
+    paddingVertical: 16,
+    justifyContent: "center",
+  },
+  timeRangeButton: {
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+    borderRadius: 10,
+    marginRight: 20,
+  },
+  activeTimeRangeButton: {
+    backgroundColor: Colors.electricLime,
+  },
+  timeRangeText: {
+    fontSize: 12,
+    lineHeight: 18,
+    fontFamily: "Lufga-Regular",
+    color: "rgba(255, 255, 255, 0.5)",
+  },
+  activeTimeRangeText: {
+    color: Colors.black,
   },
 });

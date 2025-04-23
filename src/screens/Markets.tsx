@@ -11,7 +11,7 @@ import { marketsStyles as styles } from "./styles";
 import FeaturedCoin from "./utils/FeaturedCoin";
 import { SearchIcon } from "../../assets/icons";
 import CoinListItem from "./utils/CoinListItem";
-import { Coin } from "../types";
+import { Coin, MarketScreenNavigationProps } from "../types";
 
 // Tab navigation component
 const TabNavigation = ({
@@ -54,7 +54,11 @@ const TabNavigation = ({
   );
 };
 
-const Markets = () => {
+const Markets = ({
+  navigation,
+}: {
+  navigation: MarketScreenNavigationProps;
+}) => {
   const [activeTab, setActiveTab] = useState("featured");
   const coin: Coin = {
     id: "1",
@@ -91,7 +95,16 @@ const Markets = () => {
               <SearchIcon />
             </View>
           </View>
-          <CoinListItem coin={coin} onPress={() => {}} />
+          <CoinListItem
+            coin={coin}
+            onPress={() =>
+              navigation.navigate("coin_details", {
+                coinId: coin.id,
+                coinName: coin.name,
+                coinSymbol: coin.symbol,
+              })
+            }
+          />
           <CoinListItem coin={coin} onPress={() => {}} />
           <CoinListItem coin={coin} onPress={() => {}} />
         </View>

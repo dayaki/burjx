@@ -3,7 +3,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 export type RootStackParamList = {
   login: undefined;
   markets: undefined;
-  CoinDetail: {
+  coin_details: {
     coinId: string;
     coinName: string;
     coinSymbol: string;
@@ -31,3 +31,5 @@ export type Coin = {
   image: string;
   productId: number;
 };
+
+export type TimeRange = "1H" | "1D" | "1W" | "1M" | "1Y" | "ALL";

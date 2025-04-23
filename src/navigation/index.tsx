@@ -3,9 +3,10 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
+import { RootStackParamList } from "../types";
 import Login from "../screens/Login";
 import Markets from "../screens/Markets";
-import { RootStackParamList } from "../types";
+import CoinDetails from "../screens/CoinDetails";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -23,6 +24,7 @@ const RootStack = () => {
     >
       <Stack.Screen name="login" component={Login} />
       <Stack.Screen name="markets" component={Markets} />
+      <Stack.Screen name="coin_details" component={CoinDetails} />
     </Stack.Navigator>
   );
 };

@@ -67,6 +67,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 6,
     padding: 3,
+    alignSelf: "flex-start",
     backgroundColor: "rgba(255, 255, 255, 0.05)",
   },
   priceChange: {
