@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import Login from "../screens/Login";
+import Markets from "../screens/Markets";
 import { RootStackParamList } from "../types";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -21,14 +22,16 @@ const RootStack = () => {
       }}
     >
       <Stack.Screen name="login" component={Login} />
+      <Stack.Screen name="markets" component={Markets} />
     </Stack.Navigator>
   );
 };
 
 const Router = () => {
   const [loaded, error] = useFonts({
-    "Lufga-Medium": require("../../assets/fonts/LufgaMedium.ttf"),
+    "Lufga-Thin": require("../../assets/fonts/LufgaThin.ttf"),
     "Lufga-Regular": require("../../assets/fonts/LufgaRegular.ttf"),
+    "Lufga-Medium": require("../../assets/fonts/LufgaMedium.ttf"),
     "Lufga-SemiBold": require("../../assets/fonts/LufgaSemiBold.ttf"),
     "Lufga-Bold": require("../../assets/fonts/LufgaBold.ttf"),
   });

@@ -2,8 +2,9 @@ import { Image, Text, View, TouchableOpacity } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { loginStyles as styles } from "./styles";
+import { MarketScreenNavigationProps } from "../types";
 
-const Login = () => {
+const Login = ({ navigation }: { navigation: MarketScreenNavigationProps }) => {
   return (
     <SafeAreaView style={styles.safeview}>
       <StatusBar style="light" />
@@ -23,7 +24,11 @@ const Login = () => {
           </View>
         </View>
 
-        <TouchableOpacity style={styles.button} activeOpacity={0.8}>
+        <TouchableOpacity
+          style={styles.button}
+          activeOpacity={0.8}
+          onPress={() => navigation.navigate("markets")}
+        >
           <Text style={styles.buttonText}>Set Up</Text>
         </TouchableOpacity>
       </View>

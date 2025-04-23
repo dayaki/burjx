@@ -69,3 +69,92 @@ export const loginStyles = StyleSheet.create({
     color: Colors.black,
   },
 });
+
+export const marketsStyles = StyleSheet.create({
+  safeview: {
+    flex: 1,
+    backgroundColor: Colors.codGray,
+  },
+  container: {
+    // flex: 1,
+    justifyContent: "space-between",
+    backgroundColor: Colors.codGray,
+    paddingBottom: 10,
+  },
+  tabContainer: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+  },
+  tab: {
+    paddingRight: 25,
+    paddingLeft: 15,
+    paddingBottom: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "rgba(255, 255, 255, 0.1)",
+  },
+  activeTab: {
+    position: "relative",
+    borderBottomColor: Colors.electricLime,
+    paddingRight: 25,
+  },
+  tabText: {
+    color: "rgba(255, 255, 255, 0.5)",
+    fontSize: 20,
+    lineHeight: 30,
+    fontFamily: "Lufga-Regular",
+  },
+  activeTabText: {
+    color: Colors.white,
+  },
+  activeTabIndicator: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 2,
+    backgroundColor: Colors.electricLime,
+  },
+  featuredContainer: {
+    padding: 20,
+  },
+  content: {
+    // flex: 1,
+    // justifyContent: "space-between",
+    paddingHorizontal: 20,
+  },
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  headerText: {
+    fontSize: 20,
+    lineHeight: 30,
+    fontFamily: "Lufga-Regular",
+    color: Colors.white,
+    borderBottomColor: Colors.electricLime,
+    borderBottomWidth: 1,
+    paddingBottom: 8,
+    paddingHorizontal: 20,
+  },
+  search: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "60%",
+    height: 48,
+    borderRadius: 100,
+    backgroundColor: "rgba(255, 255, 255, 0.05)",
+    padding: 10,
+    paddingHorizontal: 20,
+  },
+  searchInput: {
+    height: 48,
+    borderRadius: 100,
+    color: Colors.white,
+    fontSize: 20,
+    lineHeight: 30,
+    fontFamily: "Lufga-Regular",
+  },
+});
