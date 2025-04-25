@@ -1,4 +1,5 @@
 import { View, StyleSheet, Image } from "react-native";
+import { ChartData, Coin, TimeRange } from "./types";
 
 const getIconBackground = (symbol: string) => {
   switch (symbol.toUpperCase()) {
@@ -29,10 +30,7 @@ const getIconBackground = (symbol: string) => {
 
 export const CoinIcon = ({ symbol }: { symbol: string }) => (
   <View style={styles.coinIcon}>
-    <Image
-      source={require("../assets/images/btc.png")}
-      style={styles.coinIconImage}
-    />
+    <Image source={{ uri: symbol }} style={styles.coinIconImage} />
   </View>
 );
 
@@ -45,6 +43,55 @@ export const formatPrice = (price: number): string => {
   }).format(price);
 };
 
+export const sortByMarketCap = (coins: Coin[]): Coin[] => {
+  return [...coins].sort((a, b) => b.marketCap - a.marketCap).slice(0, 5);
+};
+
+export const sortByPriceChangeDesc = (coins: Coin[]): Coin[] => {
+  return [...coins].sort(
+    (a, b) => b.priceChangePercentage24h - a.priceChangePercentage24h
+  );
+};
+
+export const sortByPriceChangeAsc = (coins: Coin[]): Coin[] => {
+  return [...coins].sort(
+    (a, b) => a.priceChangePercentage24h - b.priceChangePercentage24h
+  );
+};
+
+export const getApiTimeRange = (timeRange: TimeRange) => {
+  switch (timeRange) {
+    case "1D":
+      return "1";
+    case "1W":
+      return "7";
+    case "1M":
+      return "30";
+    case "1Y":
+      return "365";
+    case "ALL":
+      return "max";
+    default:
+      return "1";
+  }
+};
+
+export const formatToK = (amount: number) => {
+  if (amount >= 1000) {
+    return `$ ${(amount / 1000).toFixed(1)}k`;
+  }
+  return `$ ${amount.toFixed(1)}`;
+};
+
+export const coinLevels = (coins: ChartData[]) => {
+  const highs = coins.map((d) => d.high);
+  const lows = coins.map((d) => d.low);
+  const allPrices = highs.concat(lows);
+  const min = Math.min(...allPrices);
+  const max = Math.max(...allPrices);
+  const step = (max - min) / 3;
+  return [max, max - step, max - step * 2, min];
+};
 const styles = StyleSheet.create({
   coinIcon: {
     width: 40,

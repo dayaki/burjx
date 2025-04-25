@@ -1,146 +1,151 @@
 import { useMemo, useState } from "react";
-import { View, Text, TouchableOpacity, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  ImageBackground,
+  ActivityIndicator,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { coinDetailsStyles as styles } from "./styles";
 import { CoinDetailsNavigationProps, TimeRange } from "../types";
 import { BackIcon } from "../../assets/icons";
-import { CoinIcon, formatPrice } from "../utils";
+import { CoinIcon, coinLevels, formatPrice, formatToK } from "../utils";
 import { CoinPrice } from "../common/Components";
 import { FullScreenIcon } from "../../assets/icons";
 import { CandlestickChart, formatDatetime } from "react-native-wagmi-charts";
 import { Colors } from "../common/Colors";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { useFetchCoin } from "../hooks/useFetchCoin";
+import { CandlestickCharts, LineCharts } from "./utils/Charts";
 
-const data = [
-  {
-    timestamp: 1625945400000,
-    open: 33575.25,
-    high: 33600.52,
-    low: 33475.12,
-    close: 33520.11,
-  },
-  {
-    timestamp: 1625946300000,
-    open: 33545.25,
-    high: 33560.52,
-    low: 33510.12,
-    close: 33520.11,
-  },
-  {
-    timestamp: 1625947200000,
-    open: 33510.25,
-    high: 33515.52,
-    low: 33250.12,
-    close: 33250.11,
-  },
-  {
-    timestamp: 1625948100000,
-    open: 33215.25,
-    high: 33430.52,
-    low: 33215.12,
-    close: 33420.11,
-  },
-  {
-    timestamp: 1625949000000,
-    open: 33410.25,
-    high: 33510.52,
-    low: 33350.12,
-    close: 33350.11,
-  },
-  {
-    timestamp: 1625950100000,
-    open: 33330.25,
-    high: 33460.52,
-    low: 33250.12,
-    close: 33370.11,
-  },
-  {
-    timestamp: 1625951200000,
-    open: 33370.25,
-    high: 33500.52,
-    low: 33250.12,
-    close: 33390.11,
-  },
-  {
-    timestamp: 1625952300000,
-    open: 33390.25,
-    high: 33550.52,
-    low: 33250.12,
-    close: 33410.11,
-  },
-  {
-    timestamp: 1625953400000,
-    open: 33410.25,
-    high: 33510.52,
-    low: 33250.12,
-    close: 33420.11,
-  },
-  {
-    timestamp: 1625954500000,
-    open: 33420.25,
-    high: 33500.52,
-    low: 33250.12,
-    close: 33430.11,
-  },
-  {
-    timestamp: 1625955600000,
-    open: 33430.25,
-    high: 33480.52,
-    low: 33250.12,
-    close: 33450.11,
-  },
-];
-
-const CoinDetails = ({
-  navigation,
-}: {
-  navigation: CoinDetailsNavigationProps;
-}) => {
+const CoinDetails = ({ navigation, route }: CoinDetailsNavigationProps) => {
   const [timeRange, setTimeRange] = useState<TimeRange>("1D");
+  const [chartType, setChartType] = useState<"line" | "candlestick">("line");
+  const { coin } = route.params;
+
+  const { data, isLoading, error, refetch, isError } = useFetchCoin(
+    coin.productId,
+    timeRange
+  );
+
+  const refinedData = data?.data.slice(0, 20).map((item) => ({
+    timestamp: item.date,
+    open: item.usd.open,
+    high: item.usd.high,
+    low: item.usd.low,
+    close: item.usd.close,
+  }));
+
+  const levels = coinLevels(refinedData ?? []);
 
   return (
-    <SafeAreaView style={styles.safeview}>
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <TouchableOpacity
-            activeOpacity={0.7}
-            onPress={() => navigation.goBack()}
-            style={styles.backButton}
-          >
-            <BackIcon />
-          </TouchableOpacity>
-          <View style={styles.headerContent}>
-            <CoinIcon symbol={""} />
-            <Text style={styles.headerTitle}>Bitcoin (BTC)</Text>
-          </View>
+    <ImageBackground
+      source={require("../../assets/images/bg.png")}
+      resizeMode="cover"
+      style={styles.container}
+    >
+      <View style={styles.header}>
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={() => navigation.goBack()}
+          style={styles.backButton}
+        >
+          <BackIcon />
+        </TouchableOpacity>
+        <View style={styles.headerContent}>
+          <CoinIcon symbol={coin.image} />
+          <Text style={styles.headerTitle}>
+            {coin.name} ({coin.symbol.toUpperCase()})
+          </Text>
         </View>
+      </View>
+      {isLoading ? (
+        <ActivityIndicator
+          size="large"
+          color={Colors.electricLime}
+          style={{ flex: 1 }}
+        />
+      ) : isError ? (
+        <View style={styles.errorContainer}>
+          <Text style={styles.errorText}>
+            {error instanceof Error
+              ? error.message
+              : "Failed to fetch coin data"}
+          </Text>
+          <TouchableOpacity
+            style={styles.retryButton}
+            onPress={() => refetch()}
+          >
+            <Text style={styles.retryButtonText}>Retry</Text>
+          </TouchableOpacity>
+        </View>
+      ) : (
         <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
           <View style={styles.priceContainer}>
-            <Text style={styles.price}>{formatPrice(148385.52)}</Text>
-            <CoinPrice price={14.52} />
+            <Text style={styles.price}>{formatPrice(coin.currentPrice)}</Text>
+            <CoinPrice price={coin.priceChangePercentage24h} />
           </View>
 
           <View style={styles.candlestick}>
-            <GestureHandlerRootView>
-              <CandlestickChart.Provider data={data}>
-                <CandlestickChart width={150}>
-                  <CandlestickChart.Candles
-                    positiveColor={Colors.electricLime}
-                    negativeColor={Colors.accentRed}
-                  />
-                </CandlestickChart>
-              </CandlestickChart.Provider>
+            <GestureHandlerRootView style={{ position: "absolute" }}>
+              {chartType === "line" ? (
+                <LineCharts data={refinedData ?? []} />
+              ) : (
+                <CandlestickCharts data={refinedData || []} />
+              )}
             </GestureHandlerRootView>
+            <View style={styles.chartAmountContainer}>
+              {levels.map((level, idx) => (
+                <View style={styles.chartRow} key={idx}>
+                  <View style={styles.chartDash} />
+                  <Text style={styles.chartAmount}>{formatToK(level)}</Text>
+                </View>
+              ))}
+            </View>
+          </View>
+
+          {/* Chart Type Toggle */}
+          <View style={styles.chartTypeContainer}>
+            <TouchableOpacity
+              style={[
+                styles.chartTypeButton,
+                chartType === "line" && styles.activeChartTypeButton,
+              ]}
+              onPress={() => setChartType("line")}
+            >
+              <Text
+                style={[
+                  styles.chartTypeText,
+                  chartType === "line" && styles.activeChartTypeText,
+                ]}
+              >
+                Line Chart
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.chartTypeButton,
+                chartType === "candlestick" && styles.activeChartTypeButton,
+              ]}
+              onPress={() => setChartType("candlestick")}
+            >
+              <Text
+                style={[
+                  styles.chartTypeText,
+                  chartType === "candlestick" && styles.activeChartTypeText,
+                ]}
+              >
+                Candlestick
+              </Text>
+            </TouchableOpacity>
           </View>
 
           {/* Time Range Selector */}
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.timeRangeContainer}
-          >
-            {(["1H", "1D", "1W", "1M", "1Y", "ALL"] as TimeRange[]).map(
-              (range) => (
+          <View style={styles.timeRangeContainer}>
+            <View style={{ flexDirection: "row" }}>
+              {(["1D", "1W", "1M", "1Y", "ALL"] as TimeRange[]).map((range) => (
                 <TouchableOpacity
                   activeOpacity={0.7}
                   key={range}
@@ -159,15 +164,40 @@ const CoinDetails = ({
                     {range}
                   </Text>
                 </TouchableOpacity>
-              )
-            )}
+              ))}
+            </View>
             <TouchableOpacity activeOpacity={0.7}>
               <FullScreenIcon />
             </TouchableOpacity>
-          </ScrollView>
+          </View>
+
+          {/*  Addtional coin data */}
+          {refinedData && refinedData.length > 0 && (
+            <View style={styles.statsContainer}>
+              <View style={styles.statRow}>
+                <View style={styles.statItem}>
+                  <Text style={styles.statLabel}>24h High</Text>
+                  <Text style={styles.statValue}>
+                    {formatPrice(Math.max(...refinedData.map((d) => d.high)))}
+                  </Text>
+                </View>
+                <View style={styles.statItem}>
+                  <Text style={styles.statLabel}>24h Low</Text>
+                  <Text style={styles.statValue}>
+                    {formatPrice(Math.min(...refinedData.map((d) => d.low)))}
+                  </Text>
+                </View>
+                <View style={styles.statItem}>
+                  {/* hard coded as there is no data for market cap */}
+                  <Text style={styles.statLabel}>Market Cap</Text>
+                  <Text style={styles.statValue}>$2.8T</Text>
+                </View>
+              </View>
+            </View>
+          )}
         </ScrollView>
-      </View>
-    </SafeAreaView>
+      )}
+    </ImageBackground>
   );
 };
 

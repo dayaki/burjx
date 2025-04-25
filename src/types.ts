@@ -4,9 +4,7 @@ export type RootStackParamList = {
   login: undefined;
   markets: undefined;
   coin_details: {
-    coinId: string;
-    coinName: string;
-    coinSymbol: string;
+    coin: Coin;
   };
 };
 
@@ -32,4 +30,38 @@ export type Coin = {
   productId: number;
 };
 
-export type TimeRange = "1H" | "1D" | "1W" | "1M" | "1Y" | "ALL";
+export type TimeRange = "1D" | "1W" | "1M" | "1Y" | "ALL";
+
+export const queryKeys = {
+  coins: ["coins"],
+  coinOHLC: (coinId: number, timeRange: string) => [
+    "coin",
+    coinId,
+    "ohlc",
+    timeRange,
+  ],
+};
+
+export type ChartData = {
+  timestamp: number;
+  open: number;
+  high: number;
+  low: number;
+  close: number;
+};
+
+export type OHLCApiResponse = {
+  date: number;
+  usd: {
+    open: number;
+    high: number;
+    low: number;
+    close: number;
+  };
+  aed: {
+    open: number;
+    high: number;
+    low: number;
+    close: number;
+  };
+};

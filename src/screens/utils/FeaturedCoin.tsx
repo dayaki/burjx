@@ -12,7 +12,7 @@ const FeaturedCoin = ({
 }) => (
   <TouchableOpacity style={styles.featuredCard} onPress={onPress}>
     <View style={styles.coinHeader}>
-      <CoinIcon symbol={"coin.symbol"} />
+      <CoinIcon symbol={coin.image} />
       <View style={styles.coinInfo}>
         <Text style={styles.coinName}>{coin.symbol.toUpperCase()}</Text>
         <Text style={styles.coinFullName}>{coin.name}</Text>

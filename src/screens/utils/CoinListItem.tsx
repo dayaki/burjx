@@ -19,7 +19,7 @@ const CoinListItem = ({
     >
       <View style={styles.box}>
         <View style={styles.coinListLeft}>
-          <CoinIcon symbol={coin.symbol} />
+          <CoinIcon symbol={coin.image} />
           <View>
             <Text style={styles.coinName}>{coin.symbol.toUpperCase()}</Text>
             <Text style={styles.coinFullName}>{coin.name}</Text>
