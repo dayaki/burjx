@@ -1,4 +1,5 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { StackScreenProps } from "@react-navigation/stack";
 
 export type RootStackParamList = {
   login: undefined;
@@ -8,9 +9,11 @@ export type RootStackParamList = {
   };
 };
 
-export type MarketScreenNavigationProps = NativeStackNavigationProp<
+export type MarketScreenProps = StackScreenProps<RootStackParamList, "markets">;
+
+export type CoinDetailsScreenProps = StackScreenProps<
   RootStackParamList,
-  "markets"
+  "coin_details"
 >;
 
 // export type MarketScreenProps = {

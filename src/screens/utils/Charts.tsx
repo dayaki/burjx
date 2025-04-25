@@ -53,3 +53,24 @@ export const LineCharts = ({ data }: { data: CandlestickChartData[] }) => {
     </LineChart.Provider>
   );
 };
+
+export const MiniLineChart = ({ data }: { data: CandlestickChartData[] }) => {
+  const candlestickData = data.map((item) => ({
+    timestamp: item.timestamp,
+    value: item.close,
+  }));
+  return (
+    <LineChart.Provider data={candlestickData}>
+      <LineChart width={320}>
+        <LineChart.Path color={Colors.electricLime} />
+        <LineChart.CursorLine />
+        <LineChart.CursorCrosshair color={Colors.electricLime}>
+          <LineChart.Tooltip
+            textStyle={styles.tooltip}
+            style={styles.tooltipWrapper}
+          />
+        </LineChart.CursorCrosshair>
+      </LineChart>
+    </LineChart.Provider>
+  );
+};

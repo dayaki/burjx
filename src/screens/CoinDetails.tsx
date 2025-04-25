@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import {
   View,
   Text,
@@ -7,20 +7,18 @@ import {
   ImageBackground,
   ActivityIndicator,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { coinDetailsStyles as styles } from "./styles";
-import { CoinDetailsNavigationProps, TimeRange } from "../types";
+import { CoinDetailsScreenProps, TimeRange } from "../types";
 import { BackIcon } from "../../assets/icons";
-import { CoinIcon, coinLevels, formatPrice, formatToK } from "../utils";
+import { CoinIcon, coinLevels, formatCoinNumbers, formatPrice } from "../utils";
 import { CoinPrice } from "../common/Components";
 import { FullScreenIcon } from "../../assets/icons";
-import { CandlestickChart, formatDatetime } from "react-native-wagmi-charts";
 import { Colors } from "../common/Colors";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useFetchCoin } from "../hooks/useFetchCoin";
 import { CandlestickCharts, LineCharts } from "./utils/Charts";
 
-const CoinDetails = ({ navigation, route }: CoinDetailsNavigationProps) => {
+const CoinDetails = ({ navigation, route }: CoinDetailsScreenProps) => {
   const [timeRange, setTimeRange] = useState<TimeRange>("1D");
   const [chartType, setChartType] = useState<"line" | "candlestick">("line");
   const { coin } = route.params;
@@ -100,7 +98,9 @@ const CoinDetails = ({ navigation, route }: CoinDetailsNavigationProps) => {
               {levels.map((level, idx) => (
                 <View style={styles.chartRow} key={idx}>
                   <View style={styles.chartDash} />
-                  <Text style={styles.chartAmount}>{formatToK(level)}</Text>
+                  <Text style={styles.chartAmount}>
+                    {formatCoinNumbers(level)}
+                  </Text>
                 </View>
               ))}
             </View>
@@ -176,21 +176,24 @@ const CoinDetails = ({ navigation, route }: CoinDetailsNavigationProps) => {
             <View style={styles.statsContainer}>
               <View style={styles.statRow}>
                 <View style={styles.statItem}>
-                  <Text style={styles.statLabel}>24h High</Text>
-                  <Text style={styles.statValue}>
-                    {formatPrice(Math.max(...refinedData.map((d) => d.high)))}
-                  </Text>
-                </View>
-                <View style={styles.statItem}>
                   <Text style={styles.statLabel}>24h Low</Text>
                   <Text style={styles.statValue}>
-                    {formatPrice(Math.min(...refinedData.map((d) => d.low)))}
+                    {formatCoinNumbers(
+                      Math.min(...refinedData.map((d) => d.low))
+                    )}
                   </Text>
                 </View>
                 <View style={styles.statItem}>
-                  {/* hard coded as there is no data for market cap */}
+                  <Text style={styles.statLabel}>24h Volume</Text>
+                  <Text style={styles.statValue}>
+                    {formatCoinNumbers(coin.tradingVolume)}
+                  </Text>
+                </View>
+                <View style={styles.statItem}>
                   <Text style={styles.statLabel}>Market Cap</Text>
-                  <Text style={styles.statValue}>$2.8T</Text>
+                  <Text style={styles.statValue}>
+                    {formatCoinNumbers(coin.marketCap)}
+                  </Text>
                 </View>
               </View>
             </View>

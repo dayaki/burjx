@@ -9,12 +9,11 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { marketsStyles as styles } from "./styles";
 import FeaturedCoin from "./utils/FeaturedCoin";
 import { SearchIcon } from "../../assets/icons";
 import CoinListItem from "./utils/CoinListItem";
-import { Coin, MarketScreenNavigationProps } from "../types";
+import { MarketScreenProps } from "../types";
 import { useFetchCoins } from "../hooks/useFetchCoins";
 import { Colors } from "../common/Colors";
 import {
@@ -66,11 +65,7 @@ const TabNavigation = ({
   );
 };
 
-const Markets = ({
-  navigation,
-}: {
-  navigation: MarketScreenNavigationProps;
-}) => {
+const Markets = ({ navigation }: MarketScreenProps) => {
   const [activeTab, setActiveTab] = useState("featured");
   const [searchTerm, setSearchTerm] = useState("");
 

@@ -76,9 +76,15 @@ export const getApiTimeRange = (timeRange: TimeRange) => {
   }
 };
 
-export const formatToK = (amount: number) => {
-  if (amount >= 1000) {
+export const formatCoinNumbers = (amount: number) => {
+  if (amount >= 1000 && amount < 1_000_000_000) {
     return `$ ${(amount / 1000).toFixed(1)}k`;
+  }
+  if (amount >= 1_000_000_000_000) {
+    return `$ ${(amount / 1_000_000_000_000).toFixed(1)}T`;
+  }
+  if (amount >= 1_000_000_000) {
+    return `$ ${(amount / 1_000_000_000).toFixed(1)}B`;
   }
   return `$ ${amount.toFixed(1)}`;
 };

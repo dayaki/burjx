@@ -48,13 +48,4 @@ export const useFetchCoins = () => {
       return undefined;
     },
   });
-  //   return useInfiniteQuery({
-  //     queryKey: ["coins"],
-  //     queryFn: () => api.get("/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false").then(res => res.data),
-  //     getNextPageParam: (lastPage, allPages) => {
-  //       const lastPageData = lastPage.data;
-  //       if (lastPageData.length < 100) return undefined;
-  //       return lastPageData[99].id;
-  //     },
-  //   });
 };
