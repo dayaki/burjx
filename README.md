@@ -2,7 +2,7 @@
 
 ## About
 
-This project is a take-home assignment for a software engineering role at BurjX. It is a cryptocurrency market overview app built with Expo (React Native), with a focus on modern design, performance, and user experience.
+This project is a take-home assignment for a software engineering role at **BurjX**. It is a cryptocurrency market overview app built with Expo (React Native), with a focus on modern design, performance, and user experience.
 
 The app allows users to:
 
@@ -27,8 +27,8 @@ The app allows users to:
 ### 1. Clone the Repository
 
 ```bash
-git clone <repo-url>
-cd Burjx
+git clone https://github.com/dayaki/burjx
+cd burjx
 ```
 
 ### 2. Install Dependencies
@@ -75,9 +75,3 @@ See [Expo Local Authentication docs](https://docs.expo.dev/versions/latest/sdk/l
 - `src/common/` — Shared components and styles
 - `src/types.ts` — TypeScript types
 - `src/utils/` — Utilities, chart helpers, etc.
-
----
-
-## Contact
-
-For questions or issues, please open an issue or contact the maintainer.
