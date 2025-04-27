@@ -2,14 +2,16 @@
 
 ## About
 
-This project is a take-home assignment for a software engineering role. It demonstrates my ability to build a modern, performant, and user-friendly cryptocurrency market overview app using **Expo** (React Native).
+This project is a take-home assignment for a software engineering role at BurjX. It is a cryptocurrency market overview app built with Expo (React Native), with a focus on modern design, performance, and user experience.
 
 The app allows users to:
+
 - Authenticate using biometrics (Face ID / Touch ID)
 - View live market data, top gainers/losers, and detailed coin info
 - Explore interactive charts and infinite scrolling lists
 
 **Note:**
+
 - This project uses **Expo** instead of React Native CLI to make setup and running the app as quick and simple as possible.
 - Some biometric features (like full Face ID) may not work in the Expo Go app. For full biometric support, you may need to build the app on a real device (see below).
 
@@ -18,14 +20,9 @@ The app allows users to:
 ## Getting Started
 
 ### Prerequisites
+
 - [Node.js](https://nodejs.org/) (v21 or higher recommended)
 - [Yarn](https://classic.yarnpkg.com/en/docs/install/) or [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
-- [Expo CLI](https://docs.expo.dev/get-started/installation/):
-  ```bash
-  npm install -g expo-cli
-  # or
-  yarn global add expo-cli
-  ```
 
 ### 1. Clone the Repository
 
@@ -47,6 +44,7 @@ npm install
 ```bash
 npx expo start
 ```
+
 - Scan the QR code with the **Expo Go** app on your iOS or Android device.
 - Or run on an emulator/simulator (see Expo docs).
 
