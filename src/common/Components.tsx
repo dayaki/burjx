@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, Image } from "react-native";
+import { Text, View, StyleSheet } from "react-native";
 import Svg, { Path } from "react-native-svg";
 import { Colors } from "./Colors";
 
@@ -31,8 +31,19 @@ export const ChartLine = ({
   );
 };
 
-export const CoinPrice = ({ price }: { price: number }) => (
-  <View style={styles.priceChangeContainer}>
+export const CoinPrice = ({
+  price,
+  placement,
+}: {
+  price: number;
+  placement?: "start" | "end";
+}) => (
+  <View
+    style={[
+      styles.priceChangeContainer,
+      placement === "end" && { alignSelf: "flex-end" },
+    ]}
+  >
     <Text
       style={[
         styles.priceChange,
@@ -59,9 +70,6 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 20,
   },
-  //   chartContainer: {
-  //     height: 60,
-  //   },
   priceChangeContainer: {
     flexDirection: "row",
     alignItems: "center",

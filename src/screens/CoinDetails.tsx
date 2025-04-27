@@ -7,6 +7,7 @@ import {
   ImageBackground,
   ActivityIndicator,
 } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { coinDetailsStyles as styles } from "./styles";
 import { CoinDetailsScreenProps, TimeRange } from "../types";
 import { BackIcon } from "../../assets/icons";
@@ -14,7 +15,6 @@ import { CoinIcon, coinLevels, formatCoinNumbers, formatPrice } from "../utils";
 import { CoinPrice } from "../common/Components";
 import { FullScreenIcon } from "../../assets/icons";
 import { Colors } from "../common/Colors";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useFetchCoin } from "../hooks/useFetchCoin";
 import { CandlestickCharts, LineCharts } from "./utils/Charts";
 

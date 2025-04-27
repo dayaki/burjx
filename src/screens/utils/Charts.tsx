@@ -1,14 +1,7 @@
 import { CandlestickChart, LineChart } from "react-native-wagmi-charts";
 import { coinDetailsStyles as styles } from "../styles";
 import { Colors } from "../../common/Colors";
-
-type CandlestickChartData = {
-  timestamp: number;
-  open: number;
-  high: number;
-  low: number;
-  close: number;
-};
+import { CandlestickChartData } from "../../types";
 
 export const CandlestickCharts = ({
   data,
@@ -61,15 +54,8 @@ export const MiniLineChart = ({ data }: { data: CandlestickChartData[] }) => {
   }));
   return (
     <LineChart.Provider data={candlestickData}>
-      <LineChart width={320}>
+      <LineChart width={100} height={80}>
         <LineChart.Path color={Colors.electricLime} />
-        <LineChart.CursorLine />
-        <LineChart.CursorCrosshair color={Colors.electricLime}>
-          <LineChart.Tooltip
-            textStyle={styles.tooltip}
-            style={styles.tooltipWrapper}
-          />
-        </LineChart.CursorCrosshair>
       </LineChart>
     </LineChart.Provider>
   );

@@ -78,43 +78,16 @@ export const marketsStyles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    // justifyContent: "space-between",
     backgroundColor: Colors.codGray,
     paddingBottom: 10,
-    // paddingTop: 60,
   },
-  tabContainer: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
+  activityIndicator: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
-  tab: {
-    paddingRight: 25,
-    paddingLeft: 15,
-    paddingBottom: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "rgba(255, 255, 255, 0.1)",
-  },
-  activeTab: {
-    position: "relative",
-    borderBottomColor: Colors.electricLime,
-    paddingRight: 25,
-  },
-  tabText: {
-    color: "rgba(255, 255, 255, 0.5)",
-    fontSize: 20,
-    lineHeight: 30,
-    fontFamily: "Lufga-Regular",
-  },
-  activeTabText: {
-    color: Colors.white,
-  },
-  activeTabIndicator: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: 2,
-    backgroundColor: Colors.electricLime,
+  scroll: {
+    flex: 1,
   },
   featuredContainer: {
     padding: 20,
@@ -130,7 +103,7 @@ export const marketsStyles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 20,
     paddingHorizontal: 20,
-    flex: 1,
+    // flex: 1,
   },
   headerText: {
     fontSize: 20,
@@ -163,10 +136,10 @@ export const marketsStyles = StyleSheet.create({
     width: "88%",
     paddingLeft: 16,
   },
-  coinListContainer: {
-    // paddingBottom: 20,
-    // paddingHorizontal: 20,
-  },
+  // coinListContainer: {
+  //   // paddingBottom: 20,
+  //   // paddingHorizontal: 20,
+  // },
   footerLoader: {
     paddingVertical: 20,
     alignItems: "center",
@@ -182,7 +155,6 @@ export const coinDetailsStyles = StyleSheet.create({
   safeview: {
     flex: 1,
     backgroundColor: "#1b1b1b",
-    // backgroundColor: "transparent",
   },
   container: {
     flex: 1,

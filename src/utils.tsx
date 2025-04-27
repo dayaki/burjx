@@ -44,7 +44,7 @@ export const formatPrice = (price: number): string => {
 };
 
 export const sortByMarketCap = (coins: Coin[]): Coin[] => {
-  return [...coins].sort((a, b) => b.marketCap - a.marketCap).slice(0, 5);
+  return [...coins].sort((a, b) => b.marketCap - a.marketCap);
 };
 
 export const sortByPriceChangeDesc = (coins: Coin[]): Coin[] => {

@@ -6,14 +6,13 @@ import {
   ScrollView,
   Text,
   TextInput,
-  TouchableOpacity,
   View,
 } from "react-native";
 import { marketsStyles as styles } from "./styles";
 import FeaturedCoin from "./utils/FeaturedCoin";
 import { SearchIcon } from "../../assets/icons";
 import CoinListItem from "./utils/CoinListItem";
-import { MarketScreenProps } from "../types";
+import { Coin, MarketScreenProps } from "../types";
 import { useFetchCoins } from "../hooks/useFetchCoins";
 import { Colors } from "../common/Colors";
 import {
@@ -21,49 +20,7 @@ import {
   sortByPriceChangeAsc,
   sortByPriceChangeDesc,
 } from "../utils";
-
-// Tab navigation component
-const TabNavigation = ({
-  activeTab,
-  setActiveTab,
-}: {
-  activeTab: string;
-  setActiveTab: (tab: string) => void;
-}) => {
-  const tabs = [
-    { slug: "featured", name: "⭐ Featured" },
-    { slug: "gainers", name: "🚀 Top Gainers" },
-    { slug: "losers", name: "🚩 Top Losers" },
-  ];
-
-  return (
-    <View style={{ width: "100%", height: 60 }}>
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.tabContainer}
-        style={{ flex: 1, flexDirection: "row" }}
-      >
-        {tabs.map((tab) => (
-          <TouchableOpacity
-            key={tab.slug}
-            style={[styles.tab, activeTab === tab.slug && styles.activeTab]}
-            onPress={() => setActiveTab(tab.slug)}
-          >
-            <Text
-              style={[
-                styles.tabText,
-                activeTab === tab.slug && styles.activeTabText,
-              ]}
-            >
-              {tab.name}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
-    </View>
-  );
-};
+import TabNavigation from "./utils/TabNav";
 
 const Markets = ({ navigation }: MarketScreenProps) => {
   const [activeTab, setActiveTab] = useState("featured");
@@ -80,7 +37,6 @@ const Markets = ({ navigation }: MarketScreenProps) => {
     error,
   } = useFetchCoins();
   const coins = data?.pages.flatMap((page) => page.data) || [];
-  //   console.log("coins", coins[0]);
 
   const getActiveCoins = () => {
     if (!coins.length) return [];
@@ -107,7 +63,7 @@ const Markets = ({ navigation }: MarketScreenProps) => {
   }, [coins, searchTerm]);
 
   const handleLoadMore = () => {
-    if (hasNextPage && !isFetchingNextPage) {
+    if (hasNextPage && !isFetchingNextPage && searchTerm === "") {
       fetchNextPage();
     }
   };
@@ -116,84 +72,93 @@ const Markets = ({ navigation }: MarketScreenProps) => {
     if (isFetchingNextPage) {
       return (
         <View style={styles.footerLoader}>
-          <ActivityIndicator size="small" color="#c4ff00" />
+          <ActivityIndicator size="small" color={Colors.electricLime} />
         </View>
       );
     }
-
-    if (!hasNextPage) {
-      return <Text style={styles.endListText}>No more coins to load</Text>;
-    }
-
     return null;
+  };
+
+  const openCoin = (coin: Coin) => {
+    navigation.navigate("coin_details", {
+      coin,
+    });
   };
 
   return (
     <View style={styles.safeview}>
       <TabNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
-      <ScrollView style={styles.container}>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.featuredContainer}
-        >
-          {getActiveCoins().map((coin) => (
-            <FeaturedCoin
-              key={coin.id}
-              coin={coin}
-              onPress={() =>
-                navigation.navigate("coin_details", {
-                  coin: coin,
-                })
-              }
-            />
-          ))}
-        </ScrollView>
-        <View style={styles.header}>
-          <Text style={styles.headerText}>All Coins</Text>
-          <View style={styles.search}>
-            <TextInput
-              placeholder="Search..."
-              style={styles.searchInput}
-              placeholderTextColor="rgba(255, 255, 255, 0.5)"
-              value={searchTerm}
-              onChangeText={setSearchTerm}
-              autoCorrect={false}
-              autoCapitalize="none"
-              returnKeyType="done"
-            />
-            <SearchIcon />
-          </View>
-        </View>
-        <FlatList
-          data={filteredCoins}
-          keyExtractor={(item) => item.id}
-          contentContainerStyle={styles.coinListContainer}
-          renderItem={({ item }) => (
-            <View style={{ paddingHorizontal: 20 }}>
-              <CoinListItem
-                coin={item}
-                onPress={() =>
-                  navigation.navigate("coin_details", {
-                    coin: item,
-                  })
-                }
-              />
-            </View>
-          )}
-          ListFooterComponent={renderFooter}
-          onEndReached={handleLoadMore}
-          onEndReachedThreshold={0.5}
-          refreshControl={
-            <RefreshControl
-              refreshing={isRefetching}
-              onRefresh={() => refetch()}
-              tintColor={Colors.electricLime}
-              colors={[Colors.electricLime]}
-            />
-          }
+      {isLoading ? (
+        <ActivityIndicator
+          size="small"
+          color={Colors.electricLime}
+          style={styles.activityIndicator}
         />
-      </ScrollView>
+      ) : (
+        <>
+          <View>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.featuredContainer}
+            >
+              {getActiveCoins().map((coin) => (
+                <FeaturedCoin
+                  key={coin.id}
+                  coin={coin}
+                  onPress={() => openCoin(coin)}
+                />
+              ))}
+            </ScrollView>
+          </View>
+          <View style={styles.header}>
+            <Text style={styles.headerText}>All Coins</Text>
+            <View style={styles.search}>
+              <TextInput
+                placeholder="Search..."
+                style={styles.searchInput}
+                placeholderTextColor="rgba(255, 255, 255, 0.5)"
+                value={searchTerm}
+                onChangeText={setSearchTerm}
+                autoCorrect={false}
+                autoCapitalize="none"
+                returnKeyType="done"
+              />
+              <SearchIcon />
+            </View>
+          </View>
+          <FlatList
+            data={filteredCoins}
+            keyExtractor={(item) => item.id}
+            style={styles.scroll}
+            renderItem={({ item }) => (
+              <View style={{ paddingHorizontal: 20 }}>
+                <CoinListItem coin={item} onPress={() => openCoin(item)} />
+              </View>
+            )}
+            ListFooterComponent={renderFooter}
+            onEndReached={handleLoadMore}
+            onEndReachedThreshold={0.5}
+            refreshControl={
+              <RefreshControl
+                refreshing={isRefetching}
+                onRefresh={() => refetch()}
+                tintColor={Colors.electricLime}
+                colors={[Colors.electricLime]}
+              />
+            }
+            windowSize={7}
+            initialNumToRender={10}
+            maxToRenderPerBatch={10}
+            removeClippedSubviews={true}
+            getItemLayout={(data, index) => ({
+              length: 124,
+              offset: 124 * index,
+              index,
+            })}
+          />
+        </>
+      )}
     </View>
   );
 };

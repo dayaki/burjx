@@ -1,4 +1,3 @@
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { StackScreenProps } from "@react-navigation/stack";
 
 export type RootStackParamList = {
@@ -11,14 +10,12 @@ export type RootStackParamList = {
 
 export type MarketScreenProps = StackScreenProps<RootStackParamList, "markets">;
 
+export type LoginScreenProps = StackScreenProps<RootStackParamList, "login">;
+
 export type CoinDetailsScreenProps = StackScreenProps<
   RootStackParamList,
   "coin_details"
 >;
-
-// export type MarketScreenProps = {
-//   navigation: MarketScreenNavigationProps;
-// };
 
 // Types
 export type Coin = {
@@ -30,7 +27,16 @@ export type Coin = {
   marketCap: number;
   tradingVolume: number;
   image: string;
+  sparkline: number[];
   productId: number;
+};
+
+export type CandlestickChartData = {
+  timestamp: number;
+  open: number;
+  high: number;
+  low: number;
+  close: number;
 };
 
 export type TimeRange = "1D" | "1W" | "1M" | "1Y" | "ALL";
